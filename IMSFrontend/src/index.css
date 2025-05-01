@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-green{
+  color: #4DBF9B;
+}
+.text-darkgreen{
+  color: #39B593;
+}
+.bg-lightgreen{
+  background-color: #F4F8F7;
+}
+
+.bg-darkgreen{
+  background-color: #39B593;
+}
+.bg-green{
+  background-color: #4DBF9B;
+}
