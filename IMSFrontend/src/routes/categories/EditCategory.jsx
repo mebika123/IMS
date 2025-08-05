@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
+import axios from '../../axios'; 
 
 const EditCategory = () => {
     const { id } = useParams(); 
@@ -20,7 +20,7 @@ const EditCategory = () => {
     useEffect(() => {
         const fetchCategory = async () => {
             try {
-                const res = await axios.get(`http://localhost:8000/api/category/${id}`);
+                const res = await axios.get(`/category/${id}`);
                 setForm({
                     name: res.data.category.name, 
                     active: res.data.category.active,
@@ -46,7 +46,7 @@ const EditCategory = () => {
         setError(null);
 
         try {
-            const res = await axios.put(`http://localhost:8000/api/category/update/${id}`, form);
+            const res = await axios.put(`/category/update/${id}`, form);
             if (res.data.status) {
                 navigate('/dashboard/categories');
             }

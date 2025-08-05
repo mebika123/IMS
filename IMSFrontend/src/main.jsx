@@ -25,6 +25,12 @@ import EditVendor from "./routes/vendors/EditVendor";
 import SellOrders from "./routes/orders/SellOrders";
 import PurchaseOrders from "./routes/orders/PurchaseOrders";
 import RequestOrder from "./routes/orders/RequestOrder";
+import { AuthProvider } from "./context/AuthContext";
+import AddCustomer from "./routes/customers/AddCustomer";
+import EditCustomer from "./routes/customers/EditCustomer";
+import Warehouses from "./routes/warehouses/Warehouses";
+import AddWarehouse from "./routes/warehouses/AddWarehouse";
+import EditWarehouse from "./routes/warehouses/EditWarehouse";
 
 const router = createBrowserRouter([
   {
@@ -35,10 +41,10 @@ const router = createBrowserRouter([
     path: "login",
     element: <Login />
   },
-  {
-    path: "register",
-    element: <Register />
-  },
+  // {
+  //   path: "register",
+  //   element: <Register />
+  // },
   {
     path: "/dashboard",
     element: <Layout />,
@@ -49,7 +55,7 @@ const router = createBrowserRouter([
       },
       // product pages
       {
-        path: "product",
+        path: "products",
         element: <Product />
       },
       {
@@ -57,7 +63,7 @@ const router = createBrowserRouter([
         element: <AddProduct />
       },
       {
-        path: "editproduct",
+        path: "editproduct/:id",
         element: <EditProduct />
       },
       // categories page
@@ -73,10 +79,32 @@ const router = createBrowserRouter([
         path: "editcategory/:id",
         element: <EditCategory />
       },
+      // categories page
+      {
+        path: "warehouses",
+        element: <Warehouses/>
+      },
+      {
+        path: "addWarehouse",
+        element: <AddWarehouse/>
+      },
+      {
+        path: "editwarehouse/:id",
+        element: <EditWarehouse />
+      },
       // customers page
       {
         path: "customers",
         element: <Customers />
+      },
+      
+      {
+        path: "addcustomer",
+        element: <AddCustomer/>
+      },
+      {
+        path: "editCustomer/:id",
+        element: <EditCustomer />
       },
       // vendors page
       {
@@ -88,12 +116,12 @@ const router = createBrowserRouter([
         element: <AddVendor />
       },
       {
-        path: "editvendor",
+        path: "editvendor/:id",
         element: <EditVendor />
       },
       // users page
       {
-        path: "Users",
+        path: "users",
         element: <Users />
       },
       {
@@ -101,21 +129,25 @@ const router = createBrowserRouter([
         element: <AddUser />
       },
       {
-        path: "edituser",
+        path: "edituser/:id",
         element: <EditUser />
       },
       // orders page
       {
-        path: "sellorders",
+        path: "salesorders",
         element: <SellOrders />
       },
       {
-        path: "purchaseorder",
+        path: "purchasesorders",
         element: <PurchaseOrders />
       },
       {
-        path: "requestorder",
-        element: <RequestOrder />
+        path: "saleorderrequest",
+        element: <RequestOrder type="saleOrder" />
+      },
+      {
+        path: "purchaseorderrequest",
+        element: <RequestOrder type="purchaseOrder" />
       }
     ]
   },
@@ -123,6 +155,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );

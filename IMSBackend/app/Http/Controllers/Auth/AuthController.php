@@ -9,35 +9,33 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'phone' => 'required',
-            'address' => 'required',
-            'password' => 'required|confirmed|min:8'
-        ]);
+    // public function register(Request $request)
+    // {
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'email' => 'required|email|unique:users,email',
+    //         'phone' => 'required|unique:users,phone|digits:10',
+    //         'address' => 'required',
+    //         'password' => 'required|confirmed|min:8',
+    //     ]);
 
-        $user = new User();
+    //     $user = new User();
+    //     $user->name = $request->name;
+    //     $user->email = $request->email;
+    //     $user->phone = $request->phone;
+    //     $user->address = $request->address;
+    //     $user->password = Hash::make($request->password);
+    //     $user->save();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->address = $request->address;
-        $user->password = Hash::make($request->password);
+    //     $token = $user->createToken('auth_token');
 
-        $user->save();
-
-        $token = $user->createToken('auth_token');
-
-        return response()->json([
-            'status' => true,
-            'user' => $user,
-            'message' => 'User registered successfully',
-            'token' => $token->plainTextToken
-        ], 200);
-    }
+    //     return response()->json([
+    //         'status' => true,
+    //         'user' => $user,
+    //         'message' => 'User registered successfully',
+    //         'token' => $token->plainTextToken
+    //     ], 200);
+    // }
     public function login(Request $request)
     {
         $request->validate([
@@ -72,4 +70,5 @@ class AuthController extends Controller
             'status' => true,
             'message' => 'Logout successful'
         ]);
-    }}
+    }
+}

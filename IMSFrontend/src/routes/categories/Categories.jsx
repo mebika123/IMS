@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios'; 
+import axios from '../../axios'; 
 const Categories = () => {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -8,7 +8,7 @@ const Categories = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await axios.get('http://localhost:8000/api/categories');
+                const res = await axios.get('/categories');
                 setCategories(res.data.categories);
             } catch (error) {
                 console.error('Failed to fetch categories:', error);
@@ -26,7 +26,7 @@ const Categories = () => {
         }
 
         try {
-            await axios.delete(`http://localhost:8000/api/category/delete/${id}`);
+            await axios.delete(`/category/delete/${id}`);
             setCategories(categories.filter(category => category.id !== id));
             alert('Category deleted successfully!');
         } catch (error) {
@@ -61,15 +61,15 @@ const Categories = () => {
                                 {categories && categories.length > 0 ? (
                                     categories.map((category) => (
                                         <tr key={category.id} className="text-center border-t">
-                                            <td className='py-2'>{category.name}</td>
-                                            <td className='py-2'>
+                                            <td className='p-2'>{category.name}</td>
+                                            <td className='p-2'>
                                                 {category.active ? (
                                                     <span className="text-green-600 font-semibold">Active</span>
                                                 ) : (
                                                     <span className="text-red-600 font-semibold">Inactive</span>
                                                 )}
                                             </td>
-                                            <td className='py-2'>
+                                            <td className='p-2'>
                                                 <div className="flex items-center justify-center gap-2">
                                                     <Link 
                                                         to={`/dashboard/editcategory/${category.id}`}

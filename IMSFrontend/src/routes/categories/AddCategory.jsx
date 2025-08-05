@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import axios from '../../axios'
 const AddCategory = () => {
   const [form, setForm] = useState({
     name: '',
@@ -30,7 +30,7 @@ const AddCategory = () => {
     setSuccess(null);
 
     try {
-      const res = await axios.post('http://localhost:8000/api/category/store', form);
+      const res = await axios.post('/category/store', form);
       if (res.data.status) {
         setSuccess('Category added successfully!');
         setTimeout(() => {

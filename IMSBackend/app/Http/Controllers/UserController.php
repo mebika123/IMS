@@ -17,20 +17,19 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
+            'name' => 'required',
             'email' => 'required|email|unique:users,email',
+            'phone' => 'required|unique:users,phone|digits:10',
+            'address' => 'required',
             'password' => 'required|confirmed|min:8',
-            'role' => 'required|in:admin,user',
-
         ]);
 
         $user = new User();
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
+        $user->name = $request->name;
         $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
         $user->password = Hash::make($request->password);
-        $user->role = $request->role;
         $user->save();
 
         return response()->json(['message' => 'User created successfully!', 'status' => true], 200);
@@ -43,19 +42,18 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'role' => 'required|in:admin,user',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'phone' => 'required|digits:10|unique:users,phone,'.$id,
+            'address' => 'required',
         ]);
-
+        
         $user = User::find($id);
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
+        $user->name = $request->name;
         $user->email = $request->email;
-        $user->role = $request->role;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
         $user->save();
-
         return response()->json(['message' => 'User updated successfully!', 'status' => true], 200);
     }
     public function delete($id)

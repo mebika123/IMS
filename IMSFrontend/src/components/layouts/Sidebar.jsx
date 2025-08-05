@@ -2,9 +2,11 @@ import { faBoxOpen, faCartArrowDown, faCartPlus, faCircleUser, faDolly, faHandHo
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 const Sidebar = () => {
-    return (
+    const { user } = useAuth();
+      return (
         <aside className="md:w-1/6 max-sm:w-3/5   fixed max-md:top-0 shadow-[0_10px_15px_0_rgba(0,0,0,0.1),0_4px_6px_0_rgba(0,0,0,0.1)] h-screen flex justify-between flex-col bg-darkgreen transition-all duration-300 ease-in-out ">
             <div>
                 <div className='flex justify-between items-center px-5 py-4 border-b border-b-lightgreen'>
@@ -23,9 +25,9 @@ const Sidebar = () => {
 
                     </li>
                     <li>
-                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="product">
+                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="products">
                             <FontAwesomeIcon icon={faBoxOpen} />
-                            <span>Product</span>
+                            <span>Products</span>
                         </Link>
 
                     </li>
@@ -36,20 +38,27 @@ const Sidebar = () => {
                         </Link>
 
                     </li>
+                    <li>
+                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="warehouses" >
+                            <FontAwesomeIcon icon={faPaste} />
+                            <span>Warehouses</span>
+                        </Link>
+
+                    </li>
                    
                 </ul>
                 <div className="px-5 text-white">
                     <p className="mb-2 text-sm ">Orders</p>
                     <ul className=''>
                     <li>
-                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="categories">
+                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="salesorders">
                             <FontAwesomeIcon icon={faCartArrowDown} />
                             <span>Sell Orders</span>
                         </Link>
 
                     </li>
                     <li>
-                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="categories">
+                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="purchasesorders">
                         <FontAwesomeIcon icon={faCartPlus} />
                             <span>Purchase Orders</span>
                         </Link>
@@ -76,6 +85,7 @@ const Sidebar = () => {
                     </ul>
 
                 </div>
+                {user && user.type  == 'admin' &&
                 <div className="px-5 text-white">
                     <p className="mb-2 text-sm ">Users</p>
                     <ul className=''>
@@ -87,6 +97,7 @@ const Sidebar = () => {
                     </ul>
 
                 </div>
+                }
             </div>
             <div>
                 <Link to="" className="flex items-center gap-4 px-5 py-4 border-t border-b-lightgreen text-white">

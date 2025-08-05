@@ -2,19 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-.text-green{
+.text-green {
   color: #4DBF9B;
 }
-.text-darkgreen{
+
+.text-darkgreen {
   color: #39B593;
 }
-.bg-lightgreen{
+
+.bg-lightgreen {
   background-color: #F4F8F7;
 }
 
-.bg-darkgreen{
+.bg-darkgreen {
   background-color: #39B593;
 }
-.bg-green{
+
+.bg-green {
   background-color: #4DBF9B;
 }
+
+.no-scrollbar::-webkit-scrollbar-button{
+    display: none;
+    /* background: white; */
+  }
+
+  /* scrollbar-width: 5px;
+  
+  } */
+  .no-scrollbar{
+    scrollbar-width: 5px;
+  
+
+ }

@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->text('description');
             $table->string('sku');
-            $table->integer('stock');
-            $table->integer('min_stock_level');
             $table->string('unit');
             $table->string('price');
             $table->unsignedBigInteger('category_id');
