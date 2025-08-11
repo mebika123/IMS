@@ -21,6 +21,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|unique:users,phone|digits:10',
             'address' => 'required',
+            'type' => 'required',
             'password' => 'required|confirmed|min:8',
         ]);
 
@@ -29,6 +30,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->address = $request->address;
+        $user->type = $request->type;
         $user->password = Hash::make($request->password);
         $user->save();
 
@@ -43,16 +45,21 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'phone' => 'required|digits:10|unique:users,phone,'.$id,
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone' => 'required|digits:10|unique:users,phone,' . $id,
             'address' => 'required',
+            'password' => 'required|confirmed|min:8',
+
+
         ]);
-        
+
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->address = $request->address;
+        $user->type = $request->type;
+        $user->password = Hash::make($request->password);
         $user->save();
         return response()->json(['message' => 'User updated successfully!', 'status' => true], 200);
     }

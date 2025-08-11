@@ -3,9 +3,11 @@ import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 import axios from '../../axios'
+import { useAuth } from '../../context/AuthContext'
 
 const PurchaseOrders = () => {
     // table dropdrown
+    const { user } = useAuth();
     const [openRows, setOpenRows] = useState({});
 
     const toggleRow = (id) => {
@@ -35,6 +37,16 @@ const PurchaseOrders = () => {
         fetchOrders();
     }, []);
 
+    const updateStatus = async (orderId, status) => {
+        try {
+            const res = await axios.put(`/purchaseOrders/${orderId}/status/${status}`);
+            console.log(res.data.message);
+            // refresh list or update UI here
+        } catch (error) {
+            console.error(error.response.data.message);
+        }
+    };
+
     // const totalAmount(){
 
     // }
@@ -42,8 +54,8 @@ const PurchaseOrders = () => {
     return (
         <div className="shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] bg-white border border-[#E5E7EB] rounded-sm p-3 w-full mb-4">
             <div className="flex justify-between items-center">
-                <h3 className="font-bold text-xl">Sales Orders List</h3>
-                <Link className='rounded-lg bg-darkgreen text-white py-2 px-5' to='/dashboard/purchaseorderrequest'>+ New Order Request</Link>
+                <h3 className="font-bold text-xl">Purchase Orders List</h3>
+                <Link className='rounded-lg bg-darkgreen text-white py-2 px-5' to='/dashboard/purchase/order/request'>+ New Order Request</Link>
             </div>
             <div className="mt-5">
                 <div className="overflow-x-auto  w-full text-center">
@@ -74,17 +86,30 @@ const PurchaseOrders = () => {
                                     <div className='py-2 border-y border-l'>{new Date(order.created_at).toLocaleDateString()}</div>
                                     <div className='py-2 border-y border-l'> {order.total_amount} </div>
                                     <div className='py-2 border-y border-l'>
-                                        <span className='inline-flex items-center rounded-md  px-2 mr-2 py-1 text-xs font-medium  ring-inset ring-1
-                         ring-red-600/10 text-red-600 bg-red-200 '>
-                                            status
+                                        <span
+                                            className={`inline-flex items-center rounded-md px-2 mr-2 py-1 text-xs font-medium ring-inset ring-1
+            ${order.status === 'complete'
+                                                    ? 'ring-teal-600/10 text-teal-600 bg-teal-200'
+                                                    : order.status === 'pending'
+                                                        ? 'ring-blue-600/10 text-blue-600 bg-blue-200'
+                                                        : order.status === 'cancel'
+                                                            ? 'ring-red-600/10 text-red-600 bg-red-200'
+                                                            : 'ring-gray-600/10 text-gray-600 bg-gray-200'}`}>
+                                            {order.status}
                                         </span>
                                     </div>
                                     <div className='py-2 border-y border-x'>
-                                        <div className="flex items-center justify-end gap-2">
-                                            <form action="">
-                                                <button className='py-1 mr-2 rounded-lg px-4 bg-red-600 text-white hover:bg-white hover:text-red-600 transition-all ease-in-out'>Cancel</button>
-                                            </form>
+                                        {order.status == 'pending' &&
+                                        <div className="flex items-center justify-center gap-2 ">
+
+                                            {user && user.type == 'admin' && 
+                                                <button onClick={() => updateStatus(order.id, 'complete')} className='py-1 rounded-lg px-3 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>Completed</button>
+                                            }
+                                            <button onClick={() => updateStatus(order.id, 'cancel')} className='py-1 rounded-lg px-3 bg-red-600 text-white hover:bg-white hover:text-red-600 transition-all ease-in-out'>Cancel</button>
                                         </div>
+                                        
+                                        }
+
                                     </div>
                                 </div>
                                 {openRows[order.id] &&

@@ -41,7 +41,7 @@ const Vendors = () => {
             <div className="flex justify-between items-center">
                 <h3 className="font-bold text-xl">Vendors List</h3>
                 <div>
-                    <Link to='/dashboard/addvendor' className='rounded-lg bg-darkgreen text-white py-2 px-5'>+ New Vendor</Link>
+                    <Link to='/dashboard/vendor/add' className='rounded-lg bg-darkgreen text-white py-2 px-5'>+ New Vendor</Link>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@ const Vendors = () => {
                                         <td className='py-2'>{vendor.pan_no}</td>
                                         <td className='py-2'>
                                             <div className="flex items-center justify-end gap-2">
-                                                <Link to={`/dashboard/editvendor/${vendor.id}`} className='py-1 rounded-lg px-4 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>Edit</Link>
+                                                <Link to={`/dashboard/vendor/edit/${vendor.id}`} className='py-1 rounded-lg px-4 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>Edit</Link>
                                                     <button
                                                         onClick={() => handleDelete(vendor.id)}
                                                         className='py-1 rounded-lg px-4 bg-red-600 text-white hover:bg-white hover:text-red-600 transition-all ease-in-out'>Delete</button>

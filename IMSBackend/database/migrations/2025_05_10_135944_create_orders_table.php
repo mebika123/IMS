@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
            $table->id();
             $table->enum('type',['Sell','Purchase']);
-            $table->enum('status',['pending','completed'])->default('pending');
+            $table->enum('status',['pending','completed','cancle'])->default('pending');
             $table->unsignedBigInteger('party_id');
-            $table->foreign('party_id')->references('id')->on('parties');
+            $table->foreign('party_id')->references('id')->on('parties')->onDelete('cascade');
             $table->timestamps();
         });
     }

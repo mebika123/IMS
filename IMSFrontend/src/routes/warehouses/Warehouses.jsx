@@ -41,7 +41,7 @@ const Warehouses = () => {
             <div className="flex justify-between items-center">
                 <h3 className="font-bold text-xl">Warehouse List</h3>
                 <div>
-                    <Link className='rounded-lg bg-darkgreen text-white py-2 px-5' to='/dashboard/addwarehouse'>+ New Warehouse</Link>
+                    <Link className='rounded-lg bg-darkgreen text-white py-2 px-5' to='/dashboard/warehouse/add'>+ New Warehouse</Link>
                 </div>
             </div>
 
@@ -55,6 +55,9 @@ const Warehouses = () => {
                                 <tr className='bg-[#E5E7EB] text-sm text-[#6B7280]'>
                                     <th className='py-2'>Name</th>
                                     <th className='py-2'>Adress</th>
+                                    <th className='py-2'>Delivery Charge</th>
+                                    <th className='py-2'>Total Capacity</th>
+                                    <th className='py-2'>Used Capacity</th>
                                     <th className='py-2'>Action</th>
                                 </tr>
                             </thead>
@@ -67,9 +70,23 @@ const Warehouses = () => {
                                                 {warehouse.address }
                                             </td>
                                             <td className='p-2'>
+                                               Rs {warehouse.delivery_charge }
+                                            </td>
+                                            <td className='p-2'>
+                                                {warehouse.capacity }
+                                            </td>
+                                            <td className='p-2'>
+                                                {warehouse.used_capacity }
+                                            </td>
+                                            <td className='p-2'>
                                                 <div className="flex items-center justify-center gap-2">
                                                     <Link 
-                                                        to={`/dashboard/editwarehouse/${warehouse.id}`}
+                                                        to={`/dashboard/warehouse/view/product/${warehouse.id}`}
+                                                        className='py-1 rounded-lg px-4 bg-teal-500 text-white hover:bg-white hover:text-teal-500 transition-all ease-in-out'>
+                                                        View Products
+                                                    </Link>
+                                                    <Link 
+                                                        to={`/dashboard/warehouse/edit/${warehouse.id}`}
                                                         className='py-1 rounded-lg px-4 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>
                                                         Edit
                                                     </Link>

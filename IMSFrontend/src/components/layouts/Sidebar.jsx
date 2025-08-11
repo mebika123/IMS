@@ -51,14 +51,14 @@ const Sidebar = () => {
                     <p className="mb-2 text-sm ">Orders</p>
                     <ul className=''>
                     <li>
-                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="salesorders">
+                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="sales/orders">
                             <FontAwesomeIcon icon={faCartArrowDown} />
                             <span>Sell Orders</span>
                         </Link>
 
                     </li>
                     <li>
-                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="purchasesorders">
+                        <Link className="flex gap-2 items-center mb-2 hover:bg-lightgreen transition duration-300 ease-in-out hover:text-darkgreen p-2 rounded-md" to="purchases/orders">
                         <FontAwesomeIcon icon={faCartPlus} />
                             <span>Purchase Orders</span>
                         </Link>
@@ -105,8 +105,8 @@ const Sidebar = () => {
                         <FontAwesomeIcon icon={faCircleUser} />
                     </div>
                     <div>
-                        <span className='font-semibold'>user</span>
-                        <p>user@gmail.com</p>
+                        <span className='font-semibold'>{user.name}</span>
+                        <p>{user.email}</p>
                     </div>
                 </Link>
             </div>

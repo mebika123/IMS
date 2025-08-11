@@ -41,7 +41,7 @@ const Customers = () => {
         <div className="shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] bg-white border border-[#E5E7EB] rounded-sm p-3 w-full mb-4">
             <div className="flex justify-between items-center">
                 <h3 className="font-bold text-xl">Customers List</h3>
-                <Link to='/dashboard/addcustomer' className='rounded-lg bg-darkgreen text-white py-2 px-5'>+ New User</Link>
+                <Link to='/dashboard/customer/add' className='rounded-lg bg-darkgreen text-white py-2 px-5'>+ New User</Link>
 
             </div>
 
@@ -67,7 +67,7 @@ const Customers = () => {
                                         <td className='py-2'>{customer.address}</td>
                                         <td className='py-2'>
                                             <div className="flex items-center justify-end gap-2">
-                                                <Link to={`/dashboard/editCustomer/${customer.id}`} className='py-1 rounded-lg px-4 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>Edit</Link>
+                                                <Link to={`/dashboard/Customer/edit/${customer.id}`} className='py-1 rounded-lg px-4 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>Edit</Link>
                                                 <button
                                                     onClick={() => handleDelete(customer.id)}
                                                     className='py-1 rounded-lg px-4 bg-red-600 text-white hover:bg-white hover:text-red-600 transition-all ease-in-out'>Delete</button>

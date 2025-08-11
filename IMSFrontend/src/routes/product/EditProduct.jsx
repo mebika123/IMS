@@ -42,36 +42,36 @@ const EditProduct = () => {
 
     const [categories, setCategories] = useState([]);
 
-   useEffect(() => {
-  const fetchCategories = async () => {
-    try {
-      const res = await axios.get(`/product/${id}`);
-      const product = res.data.product;
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await axios.get(`/product/${id}`);
+                const product = res.data.product;
 
-      setForm({
-        name: product.name,
-        description: product.description,
-        unit: product.unit,
-        price: product.price,
-        category_id: product.category_id
-      });
+                setForm({
+                    name: product.name,
+                    description: product.description,
+                    unit: product.unit,
+                    price: product.price,
+                    category_id: product.category_id
+                });
 
-      const mappedWarehouses = product.warehouses.map((w) => ({
-        warehouse_id: String(w.id), 
-        quantity: w.pivot.quantity
-      }));
+                const mappedWarehouses = product.warehouses.map((w) => ({
+                    warehouse_id: String(w.id),
+                    quantity: w.pivot.quantity
+                }));
 
-      setWarehouses(mappedWarehouses.length > 0 ? mappedWarehouses : [{ warehouse_id: '', quantity: '' }]);
+                setWarehouses(mappedWarehouses.length > 0 ? mappedWarehouses : [{ warehouse_id: '', quantity: '' }]);
 
-      const rescategories = await axios.get('/categories');
-      setCategories(rescategories.data.categories);
-    } catch (err) {
-      console.error("Error fetching product", err);
-    }
-  };
+                const rescategories = await axios.get('/categories');
+                setCategories(rescategories.data.categories);
+            } catch (err) {
+                console.error("Error fetching product", err);
+            }
+        };
 
-  fetchCategories();
-}, [id]);
+        fetchCategories();
+    }, [id]);
 
 
     const handleAddWarehouse = () => {
@@ -102,7 +102,10 @@ const EditProduct = () => {
         setSuccess(null);
         console.log(form);
         try {
-            const res = await axios.put(`/product/update/${id}`, form);
+            const filteredWarehouses = warehouses.filter(w => w.warehouse_id && w.quantity);
+            const payload = { ...form, warehouses: filteredWarehouses };
+
+            const res = await axios.put(`/product/update/${id}`, payload);
             if (res.data.status) {
                 navigate('/dashboard/products');
             }
@@ -129,7 +132,7 @@ const EditProduct = () => {
     return (
         <div className="grid lg:grid-cols-2 gap-2">
             <div className="shadow-[0_1px_2px_0_rgba(0,0,0,0.05)] bg-white border border-[#E5E7EB] rounded-sm p-3 mx-auto mb-4 w-full">
-                <h3 className="text-bold text-xl">Add Product</h3>
+                <h3 className="text-bold text-xl">Edit Product</h3>
                 <div className="mt-5">
                     <div className="grid grid-cols-2 gap-6 p-2">
                         <div className='col-span-2'>
@@ -312,7 +315,7 @@ const EditProduct = () => {
 
                         <div className="text-center">
 
-                            <button className='w-60 rounded-lg bg-darkgreen text-white p-2 mt-1' onClick={handleSubmit}>Add</button>
+                            <button className='w-60 rounded-lg bg-darkgreen text-white p-2 mt-1' onClick={handleSubmit}>Update</button>
                         </div>
 
                     </div>

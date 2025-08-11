@@ -15,7 +15,7 @@ class SaleController extends Controller
 {
     public function index()
     {
-        $sales = Order::where('type', 'Sell')->with(['orderItems.product', 'party','orderItems.warehouse'])->get();
+        $sales = Order::where('type', 'Sell')->with(['orderItems.product', 'party', 'orderItems.warehouse'])->get();
         foreach ($sales as $order) {
             $total = 0;
             foreach ($order->orderItems as $item) {
@@ -41,7 +41,9 @@ class SaleController extends Controller
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
-            'items.*.price' => 'required'
+            'items.*.price' => 'required',
+            'items.*.warehouse_id' => 'nullable|exists:warehouses,id',
+
         ]);
 
         DB::beginTransaction();
@@ -49,7 +51,7 @@ class SaleController extends Controller
         try {
 
             $order = new Order();
-            $order->type = $request->type === 'saleOrder' ? 'Sell' : 'Purchase';
+            $order->type = 'Sell';
             $order->party_id = $request->party_id;
             $order->save();
             foreach ($request->items as $item) {
@@ -78,7 +80,7 @@ class SaleController extends Controller
                     $orderitem->save();
                 }
                 if ($remaining > 0) {
-                    throw new Exception("Insufficient Stock");
+                    return response()->json(['status' => false, 'message' => 'Not enough total warehouse capacity for this purchase order.'], 422);
                 }
             }
             DB::commit();
@@ -122,5 +124,33 @@ class SaleController extends Controller
             DB::rollBack();
             return response()->json(['status' => false, 'message' => $e->getMessage()], 500);
         }
+    }
+
+
+    public function updateStatus($orderId, $status)
+    {
+        if (!in_array($status, ['complete', 'cancel'])) {
+            return response()->json(['status' => false, 'message' => 'Invalid status'], 400);
+        }
+
+        $order = Order::with('orderItems')->findOrFail($orderId);
+        $previousStatus = $order->status;
+
+        // Update status
+        $order->status = $status;
+        $order->save();
+
+        foreach ($order->items as $item) {
+
+            if ($status === 'cancel') {
+                // Revert stock decrease
+                DB::table('product_warehouses')
+                    ->where('product_id', $item->product_id)
+                    ->where('warehouse_id', $item->warehouse_id)
+                    ->increment('quantity', $item->quantity);
+            }
+        }
+
+        return response()->json(['status' => true, 'message' => "Sale order marked as {$status}"]);
     }
 }

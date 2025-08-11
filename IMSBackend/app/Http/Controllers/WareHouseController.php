@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductWarehouse;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 
@@ -9,12 +10,14 @@ class WareHouseController extends Controller
 {
     public function index()
     {
-        $warehouses = Warehouse::all();
+        $warehouses = Warehouse::withSum('products as used_capacity', 'product_warehouses.quantity')->get();
+
         return response()->json([
             'status' => true,
-            'warehouses' => $warehouses
+            'warehouses' => $warehouses,
         ], 200);
     }
+
     public function show($id)
     {
         $warehouse = Warehouse::find($id);
@@ -24,6 +27,28 @@ class WareHouseController extends Controller
             'warehouse' => $warehouse
         ], 200);
     }
+    public function showProduct($id)
+    {
+        $warehouseProducts = ProductWarehouse::where('warehouse_id', $id)
+            ->join('products', 'product_warehouses.product_id', '=', 'products.id')
+            ->get();
+        return response()->json([
+            'status' => true,
+            'warehouse' => $warehouseProducts
+        ], 200);
+    }
+    public function removeProductFromWarehouse($warehouseId, $productId)
+    {
+        $warehouse = Warehouse::findOrFail($warehouseId);
+
+        $warehouse->products()->detach($productId);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Product removed from warehouse successfully.'
+        ]);
+    }
+
 
     public function store(Request $request)
     {

@@ -136,7 +136,7 @@ const EditWarehouse = () => {
           <div>
             <input
               type="submit"
-              value="Add"
+              value="Update"
               className="w-1/5 rounded-lg bg-darkgreen text-white p-2 mt-1 cursor-pointer"
             />
           </div>

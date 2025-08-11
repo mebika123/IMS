@@ -1,38 +1,52 @@
 import axios from '../../axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const EditUser = () => {
-    const {id} = useParams();
+    const { user } = useAuth();
+    const navigate = useNavigate();
+    useEffect(() => {
+
+        if (user.role != 'admin') {
+            navigate('/dashboard');
+        }
+    }, [user]);
+    const { id } = useParams();
     const [form, setForm] = useState({
         name: '',
         email: '',
         phone: '',
         address: '',
+        type: '',
+        password: '',
+        password_confirmation: ''
     });
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        const  fetchUsers = async () => {
-            try{
+        const fetchUsers = async () => {
+            try {
                 const res = await axios.get(`/user/${id}`);
                 console.log(res.data);
                 setForm(res.data.user)
             }
-            catch(err){
+            catch (err) {
                 console.log("error in fetching data");
             }
         };
         fetchUsers()
-    },[id]);
+    }, [id]);
 
     const [formError, setFormError] = useState({
         name: [],
         email: [],
         phone: [],
         address: [],
+        type: [],
+        password: [],
+        password_confirmation: []
     });
 
     const handleChange = (e) => {
@@ -60,6 +74,9 @@ const EditUser = () => {
                 email: errors.email || [],
                 phone: errors.phone || [],
                 address: errors.address || [],
+                type: errors.type || [],
+                password: errors.password || [],
+                password_confirmation: errors.password_confirmation || []
             });
             setError(err.response?.data?.message || 'Something went wrong');
         }
@@ -118,7 +135,7 @@ const EditUser = () => {
                                 </p>
                             }
                         </div>
-                        <div className='col-span-2'>
+                        <div className=''>
                             <label htmlFor="address" className='text-[#374151]'>Address</label>
                             <input type="text"
                                 name="address"
@@ -133,39 +150,52 @@ const EditUser = () => {
                                 </p>
                             }
                         </div>
-                        {/* <div className='col-span-2'>
+                        <div className=''>
+                            <label htmlFor="type" className='text-[#374151]'>Type</label>
+                            <select name="type" value={form.type} onChange={handleChange} id="" className='w-full rounded-lg border p-2 mt-1 bg-lightgreen'>
+                                <option value="admin">admin</option>
+                                <option value="user">user</option>
+                            </select>
+                            {formError.type.length > 0 &&
+                                <p className="text-red-500">
+                                    {
+                                        formError.type[0]
+                                    }
+                                </p>
+                            }
+                        </div>
+                        <div className='col-span-2'>
                             <label htmlFor="password" className='text-[#374151]'>password</label>
                             <input type="password"
-                             name="password"
-                             value={form.password}
-                             onChange={handleChange}
-                              className='w-full rounded-lg border p-2 mt-1 bg-lightgreen' />
-                               {formError.password.length > 0 &&
-                            <p className="text-red-500">
-                                {
-                                    formError.password[0]
-                                }
-                            </p>
-                        }
+                                name="password"
+                                value={form.password}
+                                onChange={handleChange}
+                                className='w-full rounded-lg border p-2 mt-1 bg-lightgreen' />
+                            {formError.password.length > 0 &&
+                                <p className="text-red-500">
+                                    {
+                                        formError.password[0]
+                                    }
+                                </p>
+                            }
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="password" className='text-[#374151]'>Confirmation Password</label>
                             <input type="password"
-                             name="password_confirmation"
-                             value={form.password_confirmation}
-                             onChange={handleChange}
-                              className='w-full rounded-lg border p-2 mt-1 bg-lightgreen' />
-                              {formError.password_confirmation.length > 0 &&
-                                    <p className="text-red-500">
-                                        {
-                                            formError.password_confirmation[0]
-                                        }
-                                    </p>
-                                }
-                        </div> */}
-
+                                name="password_confirmation"
+                                value={form.password_confirmation}
+                                onChange={handleChange}
+                                className='w-full rounded-lg border p-2 mt-1 bg-lightgreen' />
+                            {formError.password_confirmation.length > 0 &&
+                                <p className="text-red-500">
+                                    {
+                                        formError.password_confirmation[0]
+                                    }
+                                </p>
+                            }
+                        </div>
                         <div className='text-end'>
-                            <input type="submit" value="Edit" className='w-1/2 rounded-lg bg-darkgreen text-white p-2 mt-1 cursor-pointer' />
+                            <input type="submit" value="Update" className='w-1/2 rounded-lg bg-darkgreen text-white p-2 mt-1 cursor-pointer' />
                         </div>
                     </div>
                 </form>

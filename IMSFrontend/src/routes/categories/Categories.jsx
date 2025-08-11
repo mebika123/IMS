@@ -40,7 +40,7 @@ const Categories = () => {
             <div className="flex justify-between items-center">
                 <h3 className="font-bold text-xl">Categories List</h3>
                 <div>
-                    <Link className='rounded-lg bg-darkgreen text-white py-2 px-5' to='/dashboard/addcategory'>+ New Category</Link>
+                    <Link className='rounded-lg bg-darkgreen text-white py-2 px-5' to='/dashboard/category/add'>+ New Category</Link>
                 </div>
             </div>
 
@@ -72,7 +72,7 @@ const Categories = () => {
                                             <td className='p-2'>
                                                 <div className="flex items-center justify-center gap-2">
                                                     <Link 
-                                                        to={`/dashboard/editcategory/${category.id}`}
+                                                        to={`/dashboard/category/edit/${category.id}`}
                                                         className='py-1 rounded-lg px-4 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>
                                                         Edit
                                                     </Link>

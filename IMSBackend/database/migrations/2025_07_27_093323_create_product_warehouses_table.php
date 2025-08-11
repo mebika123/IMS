@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('product_warehouses', function (Blueprint $table) {
             $table->id();
             $table->integer('quantity');
-            $table->float('x')->default(0);
-            $table->float('y')->default(0);
             $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->unsignedBigInteger('warehouse_id');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
             $table->timestamps();
         });
     }

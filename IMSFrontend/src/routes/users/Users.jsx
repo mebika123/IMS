@@ -1,8 +1,17 @@
 import axios from '../../axios';
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext';
 
 const Users = () => {
+        const { user } = useAuth();
+        const navigate = useNavigate();
+        useEffect(()=>{
+
+            if(user.role != 'admin'){
+                navigate('/dashboard');
+            }
+        },[user]);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -42,7 +51,7 @@ const Users = () => {
             <div className="flex justify-between items-center">
                 <h3 className="font-bold text-xl">Users List</h3>
                 <div>
-                    <Link to='/dashboard/adduser' className='rounded-lg bg-darkgreen text-white py-2 px-5'>+ New User</Link>
+                    <Link to='/dashboard/user/add' className='rounded-lg bg-darkgreen text-white py-2 px-5'>+ New User</Link>
                 </div>
             </div>
             <div className="mt-5">
@@ -54,6 +63,7 @@ const Users = () => {
                                 <th className='py-2'>Email</th>
                                 <th className='py-2'>Contact</th>
                                 <th className='py-2'>Address</th>
+                                <th className='py-2'>Type</th>
                                 <th className='py-2'>Action</th>
                             </tr>
                         </thead>
@@ -67,9 +77,10 @@ const Users = () => {
                                             <td className='p-2'>{user?.email}</td>
                                             <td className='p-2'>{user?.phone}</td>
                                             <td className='p-2'>{user?.address}</td>
+                                            <td className='p-2'>{user?.type}</td>
                                             <td className='p-2'>
                                                 <div className="flex items-center justify-end gap-2">
-                                                    <Link to={`/dashboard/edituser/${user.id}`} className='py-1 rounded-lg px-4 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>Edit</Link>
+                                                    <Link to={`/dashboard/user/edit/${user.id}`} className='py-1 rounded-lg px-4 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>Edit</Link>
                                                     <button
                                                         onClick={() => handleDelete(user.id)}
                                                         className='py-1 rounded-lg px-4 bg-red-600 text-white hover:bg-white hover:text-red-600 transition-all ease-in-out'>

@@ -115,7 +115,7 @@ const EditVendor = () => {
                         </div>
                     </div>
                     <div className='text-center'>
-                        <input type="submit" value="Add" className='w-32 rounded-lg bg-darkgreen text-white p-2 mt-1 cursor-pointer' />
+                        <input type="submit" value="Update" className='w-32 rounded-lg bg-darkgreen text-white p-2 mt-1 cursor-pointer' />
                     </div>
                 </form>
             </div>

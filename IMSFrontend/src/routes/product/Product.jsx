@@ -172,7 +172,7 @@ const Product = () => {
                         <div className="flex justify-between items-center">
                             <h3 className="font-bold text-xl">Product List</h3>
                             <div>
-                                <Link to='/dashboard/addproduct' className='rounded-lg bg-darkgreen text-white py-2 px-5'>+ New Product</Link>
+                                <Link to='/dashboard/product/add' className='rounded-lg bg-darkgreen text-white py-2 px-5'>+ New Product</Link>
                             </div>
                         </div>
                         <div className="mt-5">
@@ -206,7 +206,7 @@ const Product = () => {
                                                     <td className="p-2">
                                                         {product.warehouses.map((w, i) => (
                                                             <span key={i}>
-                                                                {w.name}
+                                                                {w.name} ({w.pivot.quantity})
                                                                 <br />
                                                             </span>
                                                         ))}
@@ -216,7 +216,7 @@ const Product = () => {
                                                     </td>
                                                     <td className='p-2'>
                                                         <div className="flex items-center justify-end gap-2">
-                                                            <Link to={`/dashboard/editproduct/${product.id}`} className='py-1 rounded-lg px-4 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>Edit</Link>
+                                                            <Link to={`/dashboard/product/edit/${product.id}`} className='py-1 rounded-lg px-4 bg-blue-600 text-white hover:bg-white hover:text-blue-600 transition-all ease-in-out'>Edit</Link>
                                                             <button
                                                                 onClick={() => handleDelete(product.id)}
                                                                 className='py-1 rounded-lg px-4 bg-red-600 text-white hover:bg-white hover:text-red-600 transition-all ease-in-out'>

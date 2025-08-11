@@ -31,127 +31,58 @@ import EditCustomer from "./routes/customers/EditCustomer";
 import Warehouses from "./routes/warehouses/Warehouses";
 import AddWarehouse from "./routes/warehouses/AddWarehouse";
 import EditWarehouse from "./routes/warehouses/EditWarehouse";
+import ViewWarehousesProduct from "./routes/warehouses/ViewWarehouseProduct";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Login />
-  },
-  {
-    path: "login",
-    element: <Login />
-  },
-  // {
-  //   path: "register",
-  //   element: <Register />
-  // },
+  { path: "/", element: <Login /> },
+  { path: "login", element: <Login /> },
+  // { path: "register", element: <Register /> },
   {
     path: "/dashboard",
     element: <Layout />,
     children: [
-      {
-        path: "",
-        element: <Home />
-      },
-      // product pages
-      {
-        path: "products",
-        element: <Product />
-      },
-      {
-        path: "addproduct",
-        element: <AddProduct />
-      },
-      {
-        path: "editproduct/:id",
-        element: <EditProduct />
-      },
-      // categories page
-      {
-        path: "categories",
-        element: <Categories />
-      },
-      {
-        path: "addcategory",
-        element: <AddCategory />
-      },
-      {
-        path: "editcategory/:id",
-        element: <EditCategory />
-      },
-      // categories page
-      {
-        path: "warehouses",
-        element: <Warehouses/>
-      },
-      {
-        path: "addWarehouse",
-        element: <AddWarehouse/>
-      },
-      {
-        path: "editwarehouse/:id",
-        element: <EditWarehouse />
-      },
-      // customers page
-      {
-        path: "customers",
-        element: <Customers />
-      },
-      
-      {
-        path: "addcustomer",
-        element: <AddCustomer/>
-      },
-      {
-        path: "editCustomer/:id",
-        element: <EditCustomer />
-      },
-      // vendors page
-      {
-        path: "vendors",
-        element: <Vendors />
-      },
-      {
-        path: "addvendor",
-        element: <AddVendor />
-      },
-      {
-        path: "editvendor/:id",
-        element: <EditVendor />
-      },
-      // users page
-      {
-        path: "users",
-        element: <Users />
-      },
-      {
-        path: "adduser",
-        element: <AddUser />
-      },
-      {
-        path: "edituser/:id",
-        element: <EditUser />
-      },
-      // orders page
-      {
-        path: "salesorders",
-        element: <SellOrders />
-      },
-      {
-        path: "purchasesorders",
-        element: <PurchaseOrders />
-      },
-      {
-        path: "saleorderrequest",
-        element: <RequestOrder type="saleOrder" />
-      },
-      {
-        path: "purchaseorderrequest",
-        element: <RequestOrder type="purchaseOrder" />
-      }
+      { path: "", element: <Home /> },
+
+      // Products
+      { path: "products", element: <Product /> },
+      { path: "product/add", element: <AddProduct /> },
+      { path: "product/edit/:id", element: <EditProduct /> },
+
+      // Categories
+      { path: "categories", element: <Categories /> },
+      { path: "category/add", element: <AddCategory /> },
+      { path: "category/edit/:id", element: <EditCategory /> },
+
+      // Warehouses
+      { path: "warehouses", element: <Warehouses /> },
+      { path: "warehouse/add", element: <AddWarehouse /> },
+      { path: "warehouse/edit/:id", element: <EditWarehouse /> },
+      { path: "warehouse/view/product/:id", element: <ViewWarehousesProduct /> },
+
+      // Customers
+      { path: "customers", element: <Customers /> },
+      { path: "customer/add", element: <AddCustomer /> },
+      { path: "customer/edit/:id", element: <EditCustomer /> },
+
+      // Vendors
+      { path: "vendors", element: <Vendors /> },
+      { path: "vendor/add", element: <AddVendor /> },
+      { path: "vendor/edit/:id", element: <EditVendor /> },
+
+      // Users
+      { path: "users", element: <Users /> },
+      { path: "user/add", element: <AddUser /> },
+      { path: "user/edit/:id", element: <EditUser /> },
+
+      // Orders
+      { path: "sales/orders", element: <SellOrders /> },
+      { path: "purchases/orders", element: <PurchaseOrders /> },
+      { path: "sale/order/request", element: <RequestOrder type="saleOrder" /> },
+      { path: "purchase/order/request", element: <RequestOrder type="purchaseOrder" /> }
     ]
-  },
+  }
 ]);
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
